@@ -1,23 +1,22 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.example.myapplication"
-    compileSdk = 34
+    namespace = "com.example.ble_dummy"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.example.ble_dummy"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+
     }
 
     buildTypes {
@@ -30,25 +29,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
+val mockitoAgent = configurations.create("mockitoAgent")
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -59,11 +51,34 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.media3.common.ktx)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui.graphics)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+
+//    testImplementation(libs.junit)
+        testImplementation(libs.junit)
+        testImplementation(libs.androidx.core)
+//        testImplementation("org.mockito:mockito-core:5.15.2")
+    testImplementation(libs.mockito)
+    mockitoAgent(libs.mockito) { isTransitive = false }
+        testImplementation(libs.mockito.kotlin)
+        testImplementation(libs.mockk)
+
 }
+//tasks {
+//    test {
+//        jvmArgs("-javaagent:${mockitoAgent.asPath}")
+//    }
+//}

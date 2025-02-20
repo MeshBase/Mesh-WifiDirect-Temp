@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.ble_dummy;
 
 
 import android.Manifest;
