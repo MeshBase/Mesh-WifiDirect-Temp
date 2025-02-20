@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BLE_Dummy"
+rootProject.name = "wifimesh"
 include(":app")
  

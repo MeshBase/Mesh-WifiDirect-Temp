@@ -1,4 +1,4 @@
-package com.example.ble_dummy
+package com.example.wifimesh;
 
 // CentralScreen.kt
 import android.annotation.SuppressLint

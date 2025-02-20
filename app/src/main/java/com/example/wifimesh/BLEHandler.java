@@ -1,4 +1,4 @@
-package com.example.ble_dummy;
+package com.example.wifimesh;
 
 import android.util.Log;
 import java.util.ArrayList;

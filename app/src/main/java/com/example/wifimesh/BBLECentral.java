@@ -1,4 +1,4 @@
-package com.example.ble_dummy;
+package com.example.wifimesh;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;

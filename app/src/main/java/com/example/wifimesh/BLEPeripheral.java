@@ -1,8 +1,8 @@
-package com.example.ble_dummy;
+package com.example.wifimesh;
 
 // BLEPeripheral.java
-import static com.example.ble_dummy.CommonConstants.CHAR_UUID;
-import static com.example.ble_dummy.CommonConstants.SERVICE_UUID;
+import static com.example.wifimesh.CommonConstants.CHAR_UUID;
+import static com.example.wifimesh.CommonConstants.SERVICE_UUID;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.*;

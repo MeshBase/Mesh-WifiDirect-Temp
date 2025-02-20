@@ -1,4 +1,4 @@
-package com.example.ble_dummy
+package com.example.wifimesh;
 // MainActivity.kt
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*

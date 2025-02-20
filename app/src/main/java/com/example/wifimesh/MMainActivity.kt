@@ -1,4 +1,4 @@
-package com.example.ble_dummy
+package com.example.wifimesh;
 
 import android.os.Bundle
 import android.util.Log

@@ -1,4 +1,4 @@
-package com.example.ble_dummy
+package com.example.wifimesh;
 // PeripheralScreen.kt
 import android.content.Context
 import android.os.Handler
