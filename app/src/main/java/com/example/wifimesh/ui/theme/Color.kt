@@ -1,4 +1,4 @@
-package com.example.ble_dummy.ui.theme
+package com.example.wifimesh.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

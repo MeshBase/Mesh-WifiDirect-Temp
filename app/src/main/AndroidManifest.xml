@@ -2,22 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    old version-->
-    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+    <!-- make sure to declare that the app needs wifi direct -->
+    <uses-feature android:name="android.hardware.wifi.direct" />
 
-    <!--    new version-->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" tools:targetApi="s" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <!-- permissions for using wifi p2p as per the docs here:
+        https://developer.android.com/reference/android/net/wifi/p2p/package-summary
+        ACCESS_WIFI_STATE
+        CHANGE_WIFI_STATE
+        INTERNET (although this is not required for wifi p2p, it is required for the app to work)
+    -->
 
-<!--    hope works-->
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
-    <!-- Samsung-specific permissions -->
-    <uses-permission android:name="com.samsung.android.app.telephonyui.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- Only if app targets Android 13 (API level 33)
+         or higher, you must declare the NEARBY_WIFI_DEVICES permission. -->
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation"
+        tools:ignore="UnusedAttribute" />
+    <!-- If your app derives location information from Wi-Fi APIs,
+             don't include the "usesPermissionFlags" attribute. -->
 
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="32" />
+    <!-- since I need the fine location, it's a must to have the coarse location too -->
+
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,13 +48,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BLE_Dummy"
+        android:theme="@style/Theme.wifimesh"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.BLE_Dummy">
+            android:theme="@style/Theme.wifimesh">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

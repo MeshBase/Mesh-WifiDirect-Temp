@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ble_dummy"
+    namespace = "com.example.wifimesh"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.ble_dummy"
+        applicationId = "com.example.wifimesh"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

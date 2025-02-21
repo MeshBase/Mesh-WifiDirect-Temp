@@ -1,225 +1,98 @@
-package com.example.wifimesh;
+package com.example.wifimesh
 // MainActivity.kt
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import android.Manifest
-import android.os.Build
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.Scaffold
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
-import com.example.ble_dummy.ui.theme.BLE_DummyTheme
-
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            AppNavigation()
-//        }
-//    }
-//}
-//
-//@Composable
-//fun AppNavigation() {
-//    val navController = rememberNavController()
-//    NavHost(navController = navController, startDestination = "main") {
-//        composable("main") { MainScreen(navController) }
-//        composable("central") { CentralScreen() }
-//        composable("peripheral") { PeripheralScreen() }
-//    }
-//}
-//
-//@Composable
-//fun MainScreen(navController: androidx.navigation.NavController) {
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Button(
-//            onClick = { navController.navigate("central") },
-//            modifier = Modifier.padding(16.dp)
-//        ) { Text("Be Central") }
-//
-//        Button(
-//            onClick = { navController.navigate("peripheral") },
-//            modifier = Modifier.padding(16.dp)
-//        ) { Text("Be Peripheral") }
-//    }
-//}
-
-
-
-
-//class MainActivity : ComponentActivity() {
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge() // Ensure this function is defined in your project
-//
-//        setContent {
-//            BLE_DummyTheme {
-//                // Create a NavController instance
-//                val navController = rememberNavController()
-//
-//                Scaffold(
-//                    modifier = Modifier.fillMaxSize()
-//                ) { _ ->
-//                    // Pass the NavController to MainScreen
-//
-//                    MainScreen(navController = navController)
-//                }
-//            }
-//        }
-//    }
-//}
+import com.example.wifimesh.ui.theme.Theme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import java.util.UUID
+import com.example.wifimesh.wifip2p.wifiP2PTestScreen
 
 class MainActivity : ComponentActivity() {
 
-    var bluetoothHandler: BLEHandler? = null
-    val id: UUID = UUID.randomUUID()
-    val TAG = "my_kotlin_screen"
-    var bleEnabler: BLEEnabler? = null
+    // var bluetoothHandler: BLEHandler? = null
+    // var bleEnabler: BLEEnabler? = null
+    // val id: UUID = UUID.randomUUID()
+    // val tag= "my_main_activity_screen"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge() // Ensure this function is defined
 
         setContent {
-            BLE_DummyTheme {
-                // Create a NavController instance for navigation
-                val navController = rememberNavController()
-
-                Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
-                    // Set up the NavHost with a startDestination and define your routes
-                    NavHost(
-                        navController = navController,
-                        startDestination = "main",
-                        modifier = Modifier.padding(padding)
-                    ) {
-                        // The main screen route that contains your buttons
-                        composable("main") {
-                            MainScreen(navController = navController)
-                        }
-                        // Define the "central" route destination
-                        composable("central") {
-                            CentralScreen() // Create this composable for your central functionality
-                        }
-                        // Define the "peripheral" route destination
-                        composable("peripheral") {
-                            PeripheralScreen() // Create this composable for your peripheral functionality
-                        }
-                    }
-                }
+            Theme {
+                wifiP2PTestScreen()
             }
         }
     }
 }
 
-
-//class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            BLE_DummyTheme {
-//                val navController = rememberNavController()
-//                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-//                    MainScreen(navController = navController, modifier = Modifier.padding(paddingValues), )
+//@Composable
+//fun MainScreen(navController: NavController, modifier: Modifier = Modifier) {
+//    val context = LocalContext.current
+//    val tag = "my_main_screen"
 //
-//                }
+//    val permissionsLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.RequestMultiplePermissions()
+//    ) { permissions ->
+//        if (permissions.all { it.value }) {
+//            Toast.makeText(context, "All permissions granted!", Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(context, "Some permissions denied.", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    fun requestPermissions() {
+//        Log.d(tag, "Requesting Permissions")
+//        var permissions = arrayOf(
+//            Manifest.permission.ACCESS_WIFI_STATE,
+//            Manifest.permission.CHANGE_WIFI_STATE,
+//            Manifest.permission.ACCESS_FINE_LOCATION,
+//            Manifest.permission.INTERNET
+//        )
+//
+//        Log.d(tag, Build.VERSION.SDK_INT.toString())
+//        if (Build.VERSION.SDK_INT == 33) {
+//            permissions += Manifest.permission.NEARBY_WIFI_DEVICES
+//        }
+//
+//        permissionsLauncher.launch(permissions)
+//    }
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .padding(16.dp),
+//        verticalArrangement = Arrangement.Center,
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text(
+//            text = "WiFi Direct P2P Communication",
+////            style = MaterialTheme.typography.headlineMedium
+//        )
+//
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        Button(
+//            onClick = { requestPermissions() },
+//            modifier = Modifier.fillMaxWidth(0.7f)
+//        ) {
+//            Text("Request Permissions")
+//        }
+//
+//        Spacer(modifier = Modifier.height(24.dp))
+//
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 50.dp),
+//            horizontalAlignment = Alignment.Start
+//        ) {
+//            Text(text = "Permissions to be requested:")
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(text = "✔ Access and Change WiFi State")
+//            Text(text = "✔ Access Fine Location")
+//            Text(text = "✔ Internet")
+//            if (Build.VERSION.SDK_INT == 33) {
+//                Text(text = "✔ Nearby WiFi Devices")
 //            }
 //        }
 //    }
 //}
-
-
-
-    @Composable
-fun MainScreen(navController: NavController, modifier: Modifier = Modifier, ) {
-    val context = LocalContext.current
-
-    // Launcher to request multiple permissions
-    val permissionsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        // Check if all permissions are granted
-        if (permissions.all { it.value }) {
-            Toast.makeText(context, "All permissions granted!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "Some permissions denied.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // Function to request Bluetooth permissions based on Android version
-    fun requestBluetoothPermissions() {
-        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // Android 12+ uses these permissions
-            arrayOf(
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BLUETOOTH_ADVERTISE,
-                Manifest.permission.ACCESS_FINE_LOCATION
-
-            )
-        } else {
-            // For Android 11 and below, use the legacy permissions
-            arrayOf(
-                Manifest.permission.BLUETOOTH,
-                Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        }
-        permissionsLauncher.launch(permissions)
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = { navController.navigate("central") },
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text("Be Central")
-        }
-
-        Button(
-            onClick = { navController.navigate("peripheral") },
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text("Be Peripheral")
-        }
-
-        // New button for requesting Bluetooth permissions
-        Button(
-            onClick = { requestBluetoothPermissions() },
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Text("Request Bluetooth Permissions")
-        }
-    }
-}
