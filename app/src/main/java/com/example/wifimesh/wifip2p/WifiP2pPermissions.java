@@ -29,6 +29,7 @@ public class WifiP2pPermissions {
 
     public interface StatusListener {
         void onEnabled();
+
         void onDisabled();
     }
 
@@ -37,6 +38,7 @@ public class WifiP2pPermissions {
         public void onEnabled() {
             Log.d(TAG, "Status Enabled");
         }
+
         @Override
         public void onDisabled() {
             Log.d(TAG, "Status Disabled");
@@ -47,18 +49,16 @@ public class WifiP2pPermissions {
         this.activity = activity;
         permissionsLauncher = activity.registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(),
-                new ActivityResultCallback<Map<String, Boolean>>() {
-                    @Override
-                    public void onActivityResult(Map<String, Boolean> result) {
-                        if (!hasPermissions()) {
-                            listener.onDisabled();
-                        } else if (!wifiP2pIsOn()) {
-                            promptWifi();
-                        } else if (!locationIsOn()) {
-                            promptLocation();
-                        } else {
-                            listener.onEnabled();
-                        }
+                result -> {
+                    if (!wifiP2pIsOn()) {
+                        promptWifi();
+                        Log.d(TAG, "Wifi permission Prompted");
+                    } else if (!locationIsOn()) {
+                        promptLocation();
+                        Log.d(TAG, "Location permission Prompted");
+                    } else {
+                        listener.onEnabled();
+                        Log.d(TAG, "Every permission given!");
                     }
                 }
         );
@@ -82,18 +82,22 @@ public class WifiP2pPermissions {
     }
 
     private boolean hasPermissions() {
-        return Stream.of(getPermissions())
-                .allMatch(permission ->
-                        ContextCompat.checkSelfPermission(activity, permission)
-                                == PackageManager.PERMISSION_GRANTED);
+        boolean allGranted = true;
+        for (String permission : getPermissions()) {
+            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+                Log.w(TAG, "Permission denied: " + permission);
+                allGranted = false;
+            }
+        }
+        return allGranted;
     }
 
     private String[] getPermissions() {
         ArrayList<String> permissions = new ArrayList<>(Arrays.asList(
                 permission.ACCESS_WIFI_STATE,
                 permission.CHANGE_WIFI_STATE,
-                permission.ACCESS_FINE_LOCATION,
-                permission.ACCESS_COARSE_LOCATION,
+//                permission.ACCESS_FINE_LOCATION,
+//                permission.ACCESS_COARSE_LOCATION,
                 permission.INTERNET
         ));
 
@@ -119,14 +123,15 @@ public class WifiP2pPermissions {
         boolean result;
         LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
-            result = false;
+            return false;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            result = locationManager.isLocationEnabled();
+            return locationManager.isLocationEnabled();
         } else {
-            result = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                    || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            return (
+                    locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            );
         }
-        return result;
     }
 
     private void promptLocation() {
